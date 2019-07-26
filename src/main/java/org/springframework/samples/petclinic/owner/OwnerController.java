@@ -54,6 +54,7 @@ class OwnerController {
     }
 
     @GetMapping("/owners/new")
+    @LogExecutionTime
     public String initCreationForm(Map<String, Object> model) {
         Owner owner = new Owner();
         model.put("owner", owner);
@@ -61,6 +62,7 @@ class OwnerController {
     }
 
     @PostMapping("/owners/new")
+    @LogExecutionTime
     public String processCreationForm(@Valid Owner owner, BindingResult result) {
         if (result.hasErrors()) {
             return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
@@ -71,12 +73,14 @@ class OwnerController {
     }
 
     @GetMapping("/owners/find")
+    @LogExecutionTime
     public String initFindForm(Map<String, Object> model) {
         model.put("owner", new Owner());
         return "owners/findOwners";
     }
 
     @GetMapping("/owners")
+    @LogExecutionTime
     public String processFindForm(Owner owner, BindingResult result, Map<String, Object> model) {
 
         // allow parameterless GET request for /owners to return all records
@@ -126,6 +130,7 @@ class OwnerController {
      * @return a ModelMap with the model attributes for the view
      */
     @GetMapping("/owners/{ownerId}")
+    //성능측정 안함
     public ModelAndView showOwner(@PathVariable("ownerId") int ownerId) {
         ModelAndView mav = new ModelAndView("owners/ownerDetails");
         mav.addObject(this.owners.findById(ownerId));
